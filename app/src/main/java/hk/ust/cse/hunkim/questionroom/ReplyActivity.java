@@ -14,8 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.repacked.apache.commons.lang3.StringUtils;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,7 @@ public class ReplyActivity extends Activity {
     private String mImageString="";
     private String mUsername;
     private boolean incognitoMode;
+    private TextView displayUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +58,8 @@ public class ReplyActivity extends Activity {
         mQuestionKey = intent.getExtras().getString("questionKey");
         mUsername = intent.getExtras().getString("Username");
         incognitoMode = intent.getBooleanExtra("IncognitoMode",false);
+        displayUser = (TextView) findViewById(R.id.questionUsername);
+
         //mImageString = intent.getExtras().getString("imageString");
 
         mAPI.getQuestion(mQuestionKey).enqueue(new Callback<Question>() {
@@ -64,6 +70,14 @@ public class ReplyActivity extends Activity {
                     mBinding.setQuestion(question);
                     mReplyAdapter.setReplyList(question.getReplies());
                     mImageString=question.getImage();
+                    if (question.isIncognito())
+                    {
+                        displayUser.setText("by Anonymous");
+                    }
+                    else
+                    {
+                        displayUser.setText("by " + question.getUsername());
+                    }
 
                     if (mImageString != "") {
                         String picture = mImageString.substring(22);
