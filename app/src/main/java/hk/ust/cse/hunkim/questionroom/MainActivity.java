@@ -263,6 +263,7 @@ public class MainActivity extends ListActivity {
     public void onResume(){
         super.onResume();
         Reset_Search();
+        Reset_Search();
     }
 
     public void emitLikeQuestion(String questionKey) {

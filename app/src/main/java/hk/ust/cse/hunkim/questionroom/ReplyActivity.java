@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -12,12 +13,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.repacked.apache.commons.lang3.StringUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
@@ -26,6 +30,7 @@ import java.util.List;
 import hk.ust.cse.hunkim.questionroom.databinding.ActivityReplyBinding;
 import hk.ust.cse.hunkim.questionroom.question.Question;
 import hk.ust.cse.hunkim.questionroom.question.Reply;
+import hk.ust.cse.hunkim.questionroom.question.ResponseResult;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -41,6 +46,7 @@ public class ReplyActivity extends Activity {
     private String mUsername;
     //private boolean incognitoMode;
     private TextView displayUser;
+    private ImageButton deleteQuestionBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +65,7 @@ public class ReplyActivity extends Activity {
         mUsername = intent.getExtras().getString("Username");
         //incognitoMode = intent.getBooleanExtra("IncognitoMode",false);
         displayUser = (TextView) findViewById(R.id.questionUsername);
-
+        deleteQuestionBtn = (ImageButton) findViewById(R.id.deleteQuestion);
         //mImageString = intent.getExtras().getString("imageString");
 
         mAPI.getQuestion(mQuestionKey).enqueue(new Callback<Question>() {
@@ -84,6 +90,44 @@ public class ReplyActivity extends Activity {
                         byte[] encodeByte = Base64.decode(picture, Base64.DEFAULT);
                         Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
                         imageView.setImageBitmap(bitmap);
+                    }
+
+                    //delete
+                    if ((!mUsername.equals("Anonymous")) && mUsername.equals(question.getUsername()))
+                    {
+                        deleteQuestionBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                APIService service = RESTfulAPI.getInstance().getService();
+                                service.deleteQuestion(mQuestionKey, mUsername).enqueue(new Callback<ResponseResult>() {
+                                    @Override
+                                    public void onResponse(Response<ResponseResult> response, Retrofit retrofit) {
+                                        ResponseResult result = response.body();
+                                        if(result != null && result.getResult() == true) {
+                                            // deletion success
+                                            // inform other clients to delete the question
+                                            JSONObject jsonObject = new JSONObject();
+                                            try {
+                                                jsonObject.put("roomName", "theRoomNameOfTheDeletedQuestion");
+                                                jsonObject.put("id", mQuestionKey);
+                                            } catch (JSONException e) {}
+                                            RESTfulAPI.getInstance().getSocket().emit("del post", jsonObject);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Throwable t) {
+
+                                    }
+                                });
+                                finish();
+                            }
+                        });
+
+                    }
+                    else
+                    {
+                        deleteQuestionBtn.setVisibility(View.GONE);
                     }
                 }
                 else {
@@ -120,6 +164,9 @@ public class ReplyActivity extends Activity {
                     }
                 }
         );
+
+
+
     }
 
     public void sendReply(Reply reply){
