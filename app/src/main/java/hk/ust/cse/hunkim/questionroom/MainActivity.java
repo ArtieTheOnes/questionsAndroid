@@ -84,6 +84,8 @@ public class MainActivity extends ListActivity {
         createSocketEventListener();
         setTitle("Room name: " + mRoomName);
 
+        ((TextView) findViewById(R.id.mainActivityRoomName)).setText(mRoomName);
+
         ListView listView = getListView();
         listView.setAdapter(mQuestionAdapter);
 
@@ -275,47 +277,6 @@ public class MainActivity extends ListActivity {
             return;
         mSocket.emit("dislike post", questionKey);
         dbutil.put(questionKey);
-    }
-
-    private void sendMessage() {
-        EditText inputText = (EditText) findViewById(R.id.messageInput);
-        String input = inputText.getText().toString();
-        if (!input.equals("")) {
-            // Create our 'model', a Chat object
-            //Question question = new Question(input, mRoomName);
-
-            Question question = new Question(input, mRoomName, mUsername, JoinActivity.isIncognitoMode()); // change Anonymous to the name of logged in user
-
-            question.setImage(image);
-            Button draw_button= (Button) findViewById(R.id.DrawButton);
-            draw_button.setText("DRAW");
-            image=null;
-            // Create a new, auto-generated child of that chat location, and save our chat data there
-            mAPI.saveQuesion(question).enqueue(new Callback<Question>() {
-                @Override
-                public void onResponse(Response<Question> response, Retrofit retrofit) {
-                    Question question = response.body();
-                    if(question != null) {
-                        JSONObject jsonObject = new JSONObject();
-                        try {
-                            jsonObject.put("id", question.getKey());
-                            jsonObject.put("room", mRoomName);
-                        } catch (JSONException e) {}
-                        mSocket.emit("new post", jsonObject);
-                        mQuestionAdapter.insertQuestion(question, 0);
-                    }
-                    else {
-                        Log.e("Empty Response Body", "Null Question");
-                    }
-                }
-
-                @Override
-                public void onFailure(Throwable t) {
-
-                }
-            });
-            inputText.setText("");
-        }
     }
 
     private void BeginDrawing(){

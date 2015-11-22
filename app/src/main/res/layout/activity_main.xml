@@ -5,41 +5,58 @@
     android:layout_height="fill_parent"
     tools:context=".MainActivity">
 
-
-
-    <Button
-        android:id="@+id/close"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:onClick="Close"
-        android:text = "Quit Room"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        />
+        android:background="#288a83"
+        android:id="@+id/mainActivityTop">
 
-    <Button
-        android:layout_marginLeft="100dp"
-        android:id="@+id/reset_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Reset"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mainActivityRoomName"
+            android:text="RoomName"
+            android:textSize="23dp"
+            android:textColor="#f2f2f2"
+            android:layout_centerVertical="true"
+            android:padding="10dp"/>
 
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/search"
+            android:background="@null"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/reset_search"
+            android:layout_marginRight="10dp"
+            android:onClick="Search"/>
 
-    <Button
-        android:id="@+id/filter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text='Filter'
-        android:onClick="Search"
-        />
+        <ImageButton
+            android:id="@+id/reset_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/reset"
+            android:background="@null"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:onClick="Search"/>
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/mainActivityBorder"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#808080"
+        android:layout_below="@+id/mainActivityTop">
+    </RelativeLayout>
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/close"
+        android:layout_below="@+id/mainActivityBorder"
         android:layout_above="@+id/listFooter"
         android:transcriptMode="alwaysScroll" />
 
@@ -48,7 +65,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_margin="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="30dp"
         android:clickable="true"
         android:layout_alignParentBottom="true"
         app:borderWidth="0dp"

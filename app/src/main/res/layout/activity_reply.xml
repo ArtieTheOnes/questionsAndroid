@@ -4,129 +4,134 @@
         <import type="hk.ust.cse.hunkim.questionroom.TimeDisplay" />
         <variable name="question" type="hk.ust.cse.hunkim.questionroom.question.Question"/>
     </data>
+
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="fill_parent">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
+
+        <RelativeLayout
+            android:id="@+id/replyActivityBorder"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="#808080">
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|bottom"
-            android:id="@+id/questionFrame">
+            android:orientation="vertical"
+            android:layout_below="@id/replyActivityBorder">
 
-            <TextView
-                android:id="@+id/questionTitle"
-                android:text="@{question.wholeMsg}"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:textSize="16dp"
-                android:textIsSelectable="true"
-                android:textColor="#000000"
-                android:textStyle="bold"/>
+                android:layout_gravity="left|bottom"
+                android:background="#d8f3f1"
+                android:paddingBottom="3dp"
+                android:id="@+id/questionFrame">
 
-            <RelativeLayout
-                android:id="@+id/questionBottom"
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/questionTitle"
+                        android:text="@{question.wholeMsg}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:paddingRight="25dp"
+                        android:textSize="16dp"
+                        android:textIsSelectable="true"
+                        android:textColor="#000000"
+                        android:textStyle="bold"/>
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/delete"
+
+                        android:background="@null"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/questionBottom"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/questionUsername"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"/>
+
+                    <TextView
+                        android:layout_centerVertical="true"
+                        android:id="@+id/replyQuestionTimestamp"
+                        android:text="@{TimeDisplay.fromTimestamp(question.timestamp)}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"/>
+
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/ImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/replyList"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
-                <!--
-                            <ImageButton
-                                android:id="@+id/replyQuestionEchoButton"
-                                android:src="@drawable/like"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:background="@null"
-                                android:layout_alignParentLeft="true"
-                                android:layout_marginLeft="10dp"/>
-                            <TextView
-                                android:id="@+id/replyQuestionEchonum"
-                                android:layout_centerVertical="true"
-                                android:layout_width="wrap_content"
-                                android:layout_toRightOf="@+id/replyQuestionEchoButton"
-                                android:layout_marginLeft="5dp"
-                                android:layout_height="wrap_content" />
+                android:layout_below="@+id/questionFrame"
+                android:layout_above="@+id/listFooter"
+                android:transcriptMode="alwaysScroll" />
 
-                            <ImageButton
-                                android:id="@+id/replyQuestionDislikeButton"
-                                android:src="@drawable/dislike"
-                                android:background="@null"
-                                android:layout_centerVertical="true"
-                                android:layout_width="wrap_content"
-                                android:layout_toRightOf="@+id/replyQuestionEchonum"
-                                android:layout_marginLeft="20dp"
-                                android:layout_height="wrap_content" />
-                            <TextView
-                                android:id="@+id/replyQuestionDislikenum"
-                                android:layout_centerVertical="true"
-                                android:layout_width="wrap_content"
-                                android:layout_toRightOf="@+id/replyQuestionDislikeButton"
-                                android:layout_marginLeft="5dp"
-                                android:layout_height="wrap_content" />
-                -->
-                <TextView
-                    android:id="@+id/questionUsername"
+            <LinearLayout
+                android:id="@+id/listFooter"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/replyInput"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"/>
-                <TextView
+                    android:layout_weight="1"
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:lines="1"
+                    android:singleLine="true" />
 
-                    android:id="@+id/replyQuestionTimestamp"
-                    android:text="@{TimeDisplay.fromTimestamp(question.timestamp)}"
+                <Button
+                    android:id="@+id/replyButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"/>
+                    android:text="Reply"/>
+            </LinearLayout>
 
 
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/ImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-        </LinearLayout>
-
-
-
-        <ListView
-            android:id="@+id/replyList"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/questionFrame"
-            android:layout_above="@+id/listFooter"
-            android:transcriptMode="alwaysScroll" />
-
-        <LinearLayout
-            android:id="@+id/listFooter"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/replyInput"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="textMultiLine"
-                android:ems="10"
-                android:lines="1"
-                android:singleLine="true" />
-
-            <Button
-                android:id="@+id/replyButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Reply"/>
-        </LinearLayout>
-
+        </RelativeLayout>
 
     </RelativeLayout>
+
+
 </layout>

@@ -83,17 +83,6 @@ public class DrawActivity extends Activity implements View.OnClickListener {
                 }
             }
         });
-       /* findViewById(R.id.newQuestionSwitch).setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                if (((Switch)findViewById(R.id.newQuestionSwitch)).isChecked()) {
-                    findViewById(R.id.drawRegion).setVisibility(View.VISIBLE);
-                }
-                else{
-                    findViewById(R.id.drawRegion).setVisibility(View.GONE);
-                }
-            }
-        });*/
 
         Intent intent=getIntent();
         String picture= intent.getExtras().getString("image");
