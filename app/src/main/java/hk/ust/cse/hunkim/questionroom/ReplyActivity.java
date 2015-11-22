@@ -39,7 +39,7 @@ public class ReplyActivity extends Activity {
     private ImageView imageView;
     private String mImageString="";
     private String mUsername;
-    private boolean incognitoMode;
+    //private boolean incognitoMode;
     private TextView displayUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class ReplyActivity extends Activity {
         imageView= (ImageView) findViewById(R.id.ImageView);
         mQuestionKey = intent.getExtras().getString("questionKey");
         mUsername = intent.getExtras().getString("Username");
-        incognitoMode = intent.getBooleanExtra("IncognitoMode",false);
+        //incognitoMode = intent.getBooleanExtra("IncognitoMode",false);
         displayUser = (TextView) findViewById(R.id.questionUsername);
 
         //mImageString = intent.getExtras().getString("imageString");
@@ -113,7 +113,7 @@ public class ReplyActivity extends Activity {
                             String replyContent = replyText.getText().toString();
                             ReplyActivity r = (ReplyActivity) view.getContext();
                             //Reply reply = new Reply(replyContent, mQuestionKey);
-                            Reply reply = new Reply(replyContent, mQuestionKey, mUsername, incognitoMode);
+                            Reply reply = new Reply(replyContent, mQuestionKey, mUsername, JoinActivity.isIncognitoMode());
                             r.sendReply(reply);
                             replyText.setText("");
                         }

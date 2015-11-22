@@ -8,6 +8,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 
@@ -17,12 +19,14 @@ import android.widget.TextView;
  */
 public class JoinActivity extends Activity {
     public static final String ROOM_NAME = "Room_name";
+    private static boolean incognitoMode = false;
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     // UI references.
     private TextView roomNameView;
     private String username= "Anonymous";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +57,20 @@ public class JoinActivity extends Activity {
             @Override
             public void onClick(View v) {
                 gotoSignup();
+            }
+        });
+
+        ((Switch) findViewById(R.id.incognitoSwitch)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                {
+                    incognitoMode = true;
+                }
+                else
+                {
+                    incognitoMode = false;
+                }
             }
         });
     }
@@ -125,5 +143,7 @@ public class JoinActivity extends Activity {
         }
 
     }
+
+    public static boolean isIncognitoMode(){return incognitoMode;}
 }
 

@@ -43,7 +43,7 @@ public class DrawActivity extends Activity implements View.OnClickListener {
     private RESTfulAPI mAPI;
     private Socket mSocket;
     private String mUsername;
-    private boolean incognitoMode;
+    //private boolean incognitoMode;
 
 
     @Override
@@ -87,7 +87,7 @@ public class DrawActivity extends Activity implements View.OnClickListener {
         String picture= intent.getExtras().getString("image");
         mRoomName=intent.getExtras().getString("RoomName");
         mUsername = intent.getExtras().getString("Username");
-        incognitoMode = intent.getBooleanExtra("IncognitoMode",false);
+        //incognitoMode = intent.getBooleanExtra("IncognitoMode",false);
         if (picture!=null) {
             picture=picture.substring(22);
             byte[] encodeByte = Base64.decode(picture, Base64.DEFAULT);
@@ -238,7 +238,7 @@ public class DrawActivity extends Activity implements View.OnClickListener {
         if (!input.trim().isEmpty()) {
             // Create our 'model', a Chat object
             //Question question = new Question(input, mRoomName);
-            Question question = new Question(input, mRoomName, mUsername, incognitoMode); // change Anonymous to the name of logged in user
+            Question question = new Question(input, mRoomName, mUsername, JoinActivity.isIncognitoMode()); // change Anonymous to the name of logged in user
             if (((Switch)findViewById(R.id.newQuestionSwitch)).isChecked()) {
                 drawView.setDrawingCacheEnabled(true);
                 Bitmap bitmap = drawView.getDrawingCache();
