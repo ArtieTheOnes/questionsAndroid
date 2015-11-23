@@ -94,11 +94,11 @@ public class ReplyActivity extends Activity {
                     mImageString=question.getImage();
                     if (question.isIncognito())
                     {
-                        displayUser.setText("by Anonymous");
+                        displayUser.setText("Anonymous");
                     }
                     else
                     {
-                        displayUser.setText("by " + question.getUsername());
+                        displayUser.setText(question.getUsername());
                     }
 
                     if (mImageString != "") {
