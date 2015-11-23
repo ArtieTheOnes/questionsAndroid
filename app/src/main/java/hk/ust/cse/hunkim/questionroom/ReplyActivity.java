@@ -72,6 +72,7 @@ public class ReplyActivity extends Activity {
                 if ((!item.isIncognito()) && (!item.getUsername().equals("Anonymous")))
                 {
                     ((EditText) findViewById(R.id.replyInput)).setText("@" + item.getUsername()+ " ");
+                    ((EditText) findViewById(R.id.replyInput)).setSelection(((EditText) findViewById(R.id.replyInput)).getText().length());
                 }
             }
         });

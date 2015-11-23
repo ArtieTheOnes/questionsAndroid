@@ -3,6 +3,7 @@ package hk.ust.cse.hunkim.questionroom;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
@@ -90,7 +91,7 @@ public class MainActivity extends ListActivity {
 
         ((TextView) findViewById(R.id.mainActivityRoomName)).setText(mRoomName);
 
-        ListView listView = getListView();
+        final ListView listView = getListView();
         listView.setAdapter(mQuestionAdapter);
 
         Map<String, String> query = new ArrayMap<>();
@@ -111,25 +112,6 @@ public class MainActivity extends ListActivity {
 
             }
         });
-
-        // Setup our input methods. Enter key on the keyboard or pushing the send button
-    /*    EditText inputText = (EditText) findViewById(R.id.messageInput);
-        inputText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_NULL && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                    sendMessage();
-                }
-                return true;
-            }
-        });
-*/
-/*        findViewById(R.id.sendButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendMessage();
-            }
-        });*/
         findViewById(R.id.DrawButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -138,30 +120,17 @@ public class MainActivity extends ListActivity {
         });
     }
 
-    /*
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // Setup our view and list adapter. Ensure it scrolls to the bottom as data changes
-        final ListView listView = getListView();
-        // Tell our list adapter that we only want 200 messages at a time
-        Map<String, String> query = new ArrayMap<>();
-        query.put("sortBy", "order");
-        query.put("limit", "200");
-        mQuestionAdapter = new QuestionAdapter(getBaseContext(), mAPI.getQuestionList(query));
-        listView.setAdapter(mQuestionAdapter);
-        mQuestionAdapter.notifyDataSetChanged(); // ??? needed ???
-    }
-    */
-
     public void Reset_Search() {
         Map<String, String> query = new LinkedHashMap<>(); // use LinkedHashMap because the insertion order of sortBy and order should be maintained
         query.put("roomName", mRoomName);
+        //query.put("sortBy", "timestamp");
+        //query.put("order", "-1"); // -1 for descending order
+
+        /*
         query.put("sortBy", "echo");
         query.put("order", "-1"); // -1 for descending order
         query.put("sortBy", "hate");
-        query.put("order", "1"); // 1 for ascending order
+        query.put("order", "1"); // 1 for ascending order*/
         mAPI.getQuestionList(query).enqueue(new Callback<List<Question>>() {
             @Override
             public void onResponse(Response<List<Question>> response, Retrofit retrofit) {
@@ -178,6 +147,7 @@ public class MainActivity extends ListActivity {
 
             }
         });
+
     }
 
     @Override
@@ -267,7 +237,7 @@ public class MainActivity extends ListActivity {
     public void onResume(){
         super.onResume();
         refresh_list();
-        refresh_list();
+
         Toast.makeText(MainActivity.this, "Refreshed", Toast.LENGTH_SHORT).show();
 
     }
@@ -344,6 +314,7 @@ public class MainActivity extends ListActivity {
                 List<Question> questions = response.body();
                 if (questions != null) {
                     mQuestionAdapter.setQuestionList(questions);
+
                 } else {
                     Log.e("Empty Response Body", "Null Question List");
                 }
@@ -354,6 +325,7 @@ public class MainActivity extends ListActivity {
 
             }
         });
+
     }
 
 
@@ -392,6 +364,5 @@ public class MainActivity extends ListActivity {
     //public void setIncognitoMode(boolean b) { incognitoMode = b;}
 
 };
-
 
 

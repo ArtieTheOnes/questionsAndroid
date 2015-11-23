@@ -41,16 +41,16 @@ public class QuestionAdapter extends ArrayAdapter<Question> {
             // Push new on top
 
             if (question.isNewQuestion() != other.isNewQuestion()) {
-                return question.isNewQuestion() ? 1 : -1; // this is the winner
+                return question.isNewQuestion() ? -1 : 1; // this is the winner
             }
             if (question.echo != other.echo){
-                return question.echo > other.echo? 1 : -1;
+                return question.echo > other.echo? -1 : 1;
             }
             if (question.dislikes != other.dislikes){
-                return question.dislikes < other.dislikes? 1 : -1;
+                return question.dislikes < other.dislikes? -1 : 1;
             }
             if (question.getTimestamp() != other.getTimestamp()){
-                return question.getTimestamp() > other.getTimestamp() ? 1 : -1;
+                return question.getTimestamp() > other.getTimestamp() ? -1 : 1;
             }
             return 0;
             /*
@@ -181,6 +181,7 @@ public class QuestionAdapter extends ArrayAdapter<Question> {
         for(Question q: questions) {
             mKeyQuestionMap.put(q.getKey(), q);
         }
+        sortQuestionList();
         notifyDataSetChanged();
     }
 

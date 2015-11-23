@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -48,10 +50,28 @@ public class JoinActivity extends Activity {
             }
         });
 
+        if (mUsername.equals("Anonymous")){
+            ((TextView)findViewById(R.id.login_button)).setText("Log In");
+            ((AutoCompleteTextView) findViewById(R.id.room_name)).setHint("Room Name");
+        }
+        else{
+            ((TextView)findViewById(R.id.login_button)).setText("Log Off");
+            ((AutoCompleteTextView) findViewById(R.id.room_name)).setHint("Welcome, " + mUsername + "!");
+        }
+
         findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gotoLogin();
+                if (mUsername.equals("Anonymous")) {
+                    gotoLogin();
+                }
+                else{
+                    mUsername = "Anonymous";
+                    ((TextView)findViewById(R.id.login_button)).setText("Log In");
+                    ((AutoCompleteTextView) findViewById(R.id.room_name)).setHint("Room Name");
+                    Toast.makeText(JoinActivity.this, "You are logged off", Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
 
@@ -118,6 +138,20 @@ public class JoinActivity extends Activity {
         }
     }
 
+    public void onResume(){
+        super.onResume();
+
+        if (mUsername.equals("Anonymous")){
+            ((TextView)findViewById(R.id.login_button)).setText("Log In");
+            ((AutoCompleteTextView) findViewById(R.id.room_name)).setHint("Room Name");
+        }
+        else{
+            ((TextView)findViewById(R.id.login_button)).setText("Log Off");
+            ((AutoCompleteTextView) findViewById(R.id.room_name)).setHint("Welcome, " + mUsername + "!");
+        }
+
+    }
+
     private boolean isEmailValid(String room_name) {
         // http://stackoverflow.com/questions/8248277
         // Make sure alphanumeric characters
@@ -141,7 +175,7 @@ public class JoinActivity extends Activity {
                 username=data.getExtras().getString("username");
                 ((Button) findViewById(R.id.login_button)).setText(username);
             }*/
-                ((TextView) findViewById(R.id.login_button)).setText(mUsername);
+                //((TextView) findViewById(R.id.login_button)).setText(mUsername);
             }
         }
 

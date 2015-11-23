@@ -64,7 +64,7 @@ public void TryToSignUp() {
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
         builder.setMessage("Successful registered as " + Username).setTitle("Success");
-        builder.setNeutralButton("Proceed", new DialogInterface.OnClickListener() {
+        builder.setNeutralButton("Log in as " + Username , new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 JoinActivity.setmUsername(Username);
