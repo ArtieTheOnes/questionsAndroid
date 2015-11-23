@@ -94,10 +94,7 @@ public class ReplyActivity extends Activity {
                     mBinding.setQuestion(question);
                     mReplyAdapter.setReplyList(question.getReplies());
                     mImageString=question.getImage();
-                    if (question.getHead().length() == 0) {
-                        Toast.makeText(ReplyActivity.this,"Opps! This question has been deleted!",Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
+
                     if (question.isIncognito())
                     {
                         displayUser.setText("Anonymous");
@@ -136,6 +133,8 @@ public class ReplyActivity extends Activity {
                     Log.e("Empty Response Body", "Null Question");
                     //mBinding.setQuestion(new Question("", "all"));
                     mBinding.setQuestion(new Question("", "all", "Anonymous", false));
+                    Toast.makeText(ReplyActivity.this,"Opps! This question has been deleted!",Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
 
