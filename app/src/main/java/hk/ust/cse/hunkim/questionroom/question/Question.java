@@ -64,7 +64,8 @@ public class Question extends BaseObservable {
         }
 
         // get the last char
-        this.headLastChar = head.substring(head.length() - 1);
+        if (head.length() == 0) {headLastChar = "";}
+         else this.headLastChar = head.substring(head.length() - 1);
         this.timestamp = new Date().getTime();
         this.replies = new ArrayList<Reply>();
         this.username = username;
