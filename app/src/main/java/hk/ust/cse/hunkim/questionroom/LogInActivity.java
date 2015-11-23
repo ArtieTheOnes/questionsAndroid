@@ -43,7 +43,7 @@ public void TryToLogIn() {
             }
             else if (response.body() != null && response.body().getResult() == true) {
                 Intent intent = new Intent();
-                intent.putExtra("username",username);
+                //intent.putExtra("username",username);
                 LogInActivity.this.setResult(RESULT_OK, intent);
                 LogInActivity.this.finish();
             } else if (response.body()!=null){

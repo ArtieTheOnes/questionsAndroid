@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.List;
@@ -16,6 +19,10 @@ import java.util.zip.Inflater;
 import hk.ust.cse.hunkim.questionroom.R;
 import hk.ust.cse.hunkim.questionroom.databinding.ReplyBinding;
 import hk.ust.cse.hunkim.questionroom.question.Reply;
+import hk.ust.cse.hunkim.questionroom.question.ResponseResult;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
 
 /**
  * Created by Yuxuan on 10/30/2015.
@@ -39,7 +46,8 @@ public class ReplyAdapter extends ArrayAdapter<Reply> {
         }
         else
             mBinding = DataBindingUtil.getBinding(convertView);
-        Reply reply = getItem(position);
+        final Reply reply = getItem(position);
+
         mBinding.setReply(reply);
 
         TextView description = (TextView)convertView.findViewById(R.id.replyUsername);
@@ -51,7 +59,8 @@ public class ReplyAdapter extends ArrayAdapter<Reply> {
         {
             description.setText("by " + reply.getUsername());
         }
-        convertView = mBinding.getRoot();
+
+
         return convertView;
         /*
         //LayoutInflater replyInflater = LayoutInflater.from(getContext());

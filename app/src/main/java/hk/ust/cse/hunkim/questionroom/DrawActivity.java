@@ -43,7 +43,7 @@ public class DrawActivity extends Activity implements View.OnClickListener {
     final private String BlankDraw="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAuwAAAN4CAIAAAAXwipKAAAAA3NCSVQICAjb4U/gAAAPS0lEQVR4nO3WQQ0AIBDAMMC/58MDH7KkVbDn9swsAICa8zsAAOCFiQEAkkwMAJBkYgCAJBMDACSZGAAgycQAAEkmBgBIMjEAQJKJAQCSTAwAkGRiAIAkEwMAJJkYACDJxAAASSYGAEgyMQBAkokBAJJMDACQZGIAgCQTAwAkmRgAIMnEAABJJgYASDIxAECSiQEAkkwMAJBkYgCAJBMDACSZGAAgycQAAEkmBgBIMjEAQJKJAQCSTAwAkGRiAIAkEwMAJJkYACDJxAAASSYGAEgyMQBAkokBAJJMDACQZGIAgCQTAwAkmRgAIMnEAABJJgYASDIxAECSiQEAkkwMAJBkYgCAJBMDACSZGAAgycQAAEkmBgBIMjEAQJKJAQCSTAwAkGRiAIAkEwMAJJkYACDJxAAASSYGAEgyMQBAkokBAJJMDACQZGIAgCQTAwAkmRgAIMnEAABJJgYASDIxAECSiQEAkkwMAJBkYgCAJBMDACSZGAAgycQAAEkmBgBIMjEAQJKJAQCSTAwAkGRiAIAkEwMAJJkYACDJxAAASSYGAEgyMQBAkokBAJJMDACQZGIAgCQTAwAkmRgAIMnEAABJJgYASDIxAECSiQEAkkwMAJBkYgCAJBMDACSZGAAgycQAAEkmBgBIMjEAQJKJAQCSTAwAkGRiAIAkEwMAJJkYACDJxAAASSYGAEgyMQBAkokBAJJMDACQZGIAgCQTAwAkmRgAIMnEAABJJgYASDIxAECSiQEAkkwMAJBkYgCAJBMDACSZGAAgycQAAEkmBgBIMjEAQJKJAQCSTAwAkGRiAIAkEwMAJJkYACDJxAAASSYGAEgyMQBAkokBAJJMDACQZGIAgCQTAwAkmRgAIMnEAABJJgYASDIxAECSiQEAkkwMAJBkYgCAJBMDACSZGAAgycQAAEkmBgBIMjEAQJKJAQCSTAwAkGRiAIAkEwMAJJkYACDJxAAASSYGAEgyMQBAkokBAJJMDACQZGIAgCQTAwAkmRgAIMnEAABJJgYASDIxAECSiQEAkkwMAJBkYgCAJBMDACSZGAAgycQAAEkmBgBIMjEAQJKJAQCSTAwAkGRiAIAkEwMAJJkYACDJxAAASSYGAEgyMQBAkokBAJJMDACQZGIAgCQTAwAkmRgAIMnEAABJJgYASDIxAECSiQEAkkwMAJBkYgCAJBMDACSZGAAgycQAAEkmBgBIMjEAQJKJAQCSTAwAkGRiAIAkEwMAJJkYACDJxAAASSYGAEgyMQBAkokBAJJMDACQZGIAgCQTAwAkmRgAIMnEAABJJgYASDIxAECSiQEAkkwMAJBkYgCAJBMDACSZGAAgycQAAEkmBgBIMjEAQJKJAQCSTAwAkGRiAIAkEwMAJJkYACDJxAAASSYGAEgyMQBAkokBAJJMDACQZGIAgCQTAwAkmRgAIMnEAABJJgYASDIxAECSiQEAkkwMAJBkYgCAJBMDACSZGAAgycQAAEkmBgBIMjEAQJKJAQCSTAwAkGRiAIAkEwMAJJkYACDJxAAASSYGAEgyMQBAkokBAJJMDACQZGIAgCQTAwAkmRgAIMnEAABJJgYASDIxAECSiQEAkkwMAJBkYgCAJBMDACSZGAAgycQAAEkmBgBIMjEAQJKJAQCSTAwAkGRiAIAkEwMAJJkYACDJxAAASSYGAEgyMQBAkokBAJJMDACQZGIAgCQTAwAkmRgAIMnEAABJJgYASDIxAECSiQEAkkwMAJBkYgCAJBMDACSZGAAgycQAAEkmBgBIMjEAQJKJAQCSTAwAkGRiAIAkEwMAJJkYACDJxAAASSYGAEgyMQBAkokBAJJMDACQZGIAgCQTAwAkmRgAIMnEAABJJgYASDIxAECSiQEAkkwMAJBkYgCAJBMDACSZGAAgycQAAEkmBgBIMjEAQJKJAQ";
     private RESTfulAPI mAPI;
     private Socket mSocket;
-    private String mUsername;
+    //private String mUsername;
     //private boolean incognitoMode;
 
 
@@ -87,7 +87,7 @@ public class DrawActivity extends Activity implements View.OnClickListener {
         Intent intent=getIntent();
         String picture= intent.getExtras().getString("image");
         mRoomName=intent.getExtras().getString("RoomName");
-        mUsername = intent.getExtras().getString("Username");
+        //mUsername = intent.getExtras().getString("Username");
         //incognitoMode = intent.getBooleanExtra("IncognitoMode",false);
         if (picture!=null) {
             picture=picture.substring(22);
@@ -239,7 +239,7 @@ public class DrawActivity extends Activity implements View.OnClickListener {
         if (!input.trim().isEmpty()) {
             // Create our 'model', a Chat object
             //Question question = new Question(input, mRoomName);
-            Question question = new Question(input, mRoomName, mUsername, JoinActivity.isIncognitoMode()); // change Anonymous to the name of logged in user
+            Question question = new Question(input, mRoomName, JoinActivity.getmUsername(), JoinActivity.isIncognitoMode()); // change Anonymous to the name of logged in user
             if (((Switch)findViewById(R.id.newQuestionSwitch)).isChecked()) {
                 drawView.setDrawingCacheEnabled(true);
                 Bitmap bitmap = drawView.getDrawingCache();

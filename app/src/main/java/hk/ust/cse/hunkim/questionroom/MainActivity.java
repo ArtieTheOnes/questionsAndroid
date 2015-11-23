@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -47,7 +48,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends ListActivity {
-    private String mUsername;
+    //private String mUsername;
     //private boolean incognitoMode = false;
     private String mRoomName;
     private QuestionAdapter mQuestionAdapter;
@@ -78,7 +79,7 @@ public class MainActivity extends ListActivity {
                 Reset_Search();
             }
         });
-        mUsername = intent.getExtras().getString("Username");
+        //mUsername = intent.getExtras().getString("Username");
         mQuestionAdapter = new QuestionAdapter(this, new ArrayList<Question>());
         mAPI = RESTfulAPI.getInstance();
         createSocketEventListener();
@@ -283,15 +284,20 @@ public class MainActivity extends ListActivity {
     private void BeginDrawing(){
         Intent intent= new Intent(this, DrawActivity.class);
         intent.putExtra("RoomName",mRoomName);
-        intent.putExtra("Username", mUsername);
+        //intent.putExtra("Username", mUsername);
         //intent.putExtra("IncognitoMode",incognitoMode);
         startActivity(intent);
     }
 
     public void enterReply(String key) {
+        if (JoinActivity.getmUsername().equals("Anonymous"))
+        {
+            Toast.makeText(MainActivity.this, "Anonymous user can not access reply", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(this, ReplyActivity.class);
         intent.putExtra("questionKey", key);
-        intent.putExtra("Username", mUsername);
+        //intent.putExtra("Username", mUsername);
         //intent.putExtra("IncognitoMode",incognitoMode);
         startActivity(intent);
     }

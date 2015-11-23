@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 
 /**
@@ -20,12 +20,13 @@ import android.widget.TextView;
 public class JoinActivity extends Activity {
     public static final String ROOM_NAME = "Room_name";
     private static boolean incognitoMode = false;
+    private static String mUsername = "Anonymous";
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     // UI references.
     private TextView roomNameView;
-    private String username= "Anonymous";
+    //private String username= "Anonymous";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +67,14 @@ public class JoinActivity extends Activity {
                 if (isChecked)
                 {
                     incognitoMode = true;
+                    Toast.makeText(JoinActivity.this, "Incognito Mode On", Toast.LENGTH_SHORT).show();
+
                 }
                 else
                 {
                     incognitoMode = false;
+                    Toast.makeText(JoinActivity.this, "Incognito Mode Off", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
@@ -107,7 +112,7 @@ public class JoinActivity extends Activity {
             // Start main activity
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(ROOM_NAME, room_name);
-            intent.putExtra("Username",username);
+            //intent.putExtra("Username",username);
             startActivity(intent);
         }
     }
@@ -131,19 +136,21 @@ public class JoinActivity extends Activity {
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         if (requestCode==3){
-            if (resultCode==RESULT_OK){
+            /*if (resultCode==RESULT_OK){
                 username=data.getExtras().getString("username");
                 ((Button) findViewById(R.id.login_button)).setText(username);
-            }
+            }*/
         }
         if (requestCode==4){
-            if (resultCode==RESULT_OK){
+            /*if (resultCode==RESULT_OK){
                 username=data.getExtras().getString("username");
-            }
+            }*/
         }
 
     }
 
     public static boolean isIncognitoMode(){return incognitoMode;}
+
+    public static String getmUsername() {return mUsername;}
 }
 

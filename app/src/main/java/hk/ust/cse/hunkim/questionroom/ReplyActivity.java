@@ -1,6 +1,9 @@
 package hk.ust.cse.hunkim.questionroom;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -11,6 +14,7 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -43,7 +47,7 @@ public class ReplyActivity extends Activity {
     private String mQuestionKey;
     private ImageView imageView;
     private String mImageString="";
-    private String mUsername;
+    //private String mUsername;
     //private boolean incognitoMode;
     private TextView displayUser;
     private ImageButton deleteQuestionBtn;
@@ -54,15 +58,27 @@ public class ReplyActivity extends Activity {
 
         Intent intent = getIntent();
         assert (intent != null);
+        //mUsername = intent.getExtras().getString("Username");
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_reply);
         mReplyAdapter = new ReplyAdapter(this, new ArrayList<Reply>());
-        ListView replyListView = (ListView) findViewById(R.id.replyList);
+        final ListView replyListView = (ListView) findViewById(R.id.replyList);
         replyListView.setAdapter(mReplyAdapter);
+        //reply callout
+        replyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Reply item =  (Reply)replyListView.getItemAtPosition(position);
+                if ((!item.isIncognito()) && (!item.getUsername().equals("Anonymous")))
+                {
+                    ((EditText) findViewById(R.id.replyInput)).setText("@" + item.getUsername()+ " ");
+                }
+            }
+        });
 
+        //
         imageView= (ImageView) findViewById(R.id.ImageView);
         mQuestionKey = intent.getExtras().getString("questionKey");
-        mUsername = intent.getExtras().getString("Username");
         //incognitoMode = intent.getBooleanExtra("IncognitoMode",false);
         displayUser = (TextView) findViewById(R.id.questionUsername);
         deleteQuestionBtn = (ImageButton) findViewById(R.id.deleteQuestion);
@@ -93,34 +109,14 @@ public class ReplyActivity extends Activity {
                     }
 
                     //delete
-                    if ((!mUsername.equals("Anonymous")) && mUsername.equals(question.getUsername()))
+                    if ((!JoinActivity.getmUsername().equals("Anonymous")) &&JoinActivity.getmUsername().equals(question.getUsername()))
                     {
                         deleteQuestionBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                APIService service = RESTfulAPI.getInstance().getService();
-                                service.deleteQuestion(mQuestionKey, mUsername).enqueue(new Callback<ResponseResult>() {
-                                    @Override
-                                    public void onResponse(Response<ResponseResult> response, Retrofit retrofit) {
-                                        ResponseResult result = response.body();
-                                        if(result != null && result.getResult() == true) {
-                                            // deletion success
-                                            // inform other clients to delete the question
-                                            JSONObject jsonObject = new JSONObject();
-                                            try {
-                                                jsonObject.put("roomName", "theRoomNameOfTheDeletedQuestion");
-                                                jsonObject.put("id", mQuestionKey);
-                                            } catch (JSONException e) {}
-                                            RESTfulAPI.getInstance().getSocket().emit("del post", jsonObject);
-                                        }
-                                    }
 
-                                    @Override
-                                    public void onFailure(Throwable t) {
+                            deleteDialog();
 
-                                    }
-                                });
-                                finish();
                             }
                         });
 
@@ -157,7 +153,7 @@ public class ReplyActivity extends Activity {
                             String replyContent = replyText.getText().toString();
                             ReplyActivity r = (ReplyActivity) view.getContext();
                             //Reply reply = new Reply(replyContent, mQuestionKey);
-                            Reply reply = new Reply(replyContent, mQuestionKey, mUsername, JoinActivity.isIncognitoMode());
+                            Reply reply = new Reply(replyContent, mQuestionKey, JoinActivity.getmUsername(), JoinActivity.isIncognitoMode());
                             r.sendReply(reply);
                             replyText.setText("");
                         }
@@ -189,4 +185,45 @@ public class ReplyActivity extends Activity {
         });
     }
 
+    protected void deleteDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(ReplyActivity.this);
+        builder.setMessage("Delete Question").setTitle("Are you sure to delete this question?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                APIService service = RESTfulAPI.getInstance().getService();
+                service.deleteQuestion(mQuestionKey, JoinActivity.getmUsername()).enqueue(new Callback<ResponseResult>() {
+                    @Override
+                    public void onResponse(Response<ResponseResult> response, Retrofit retrofit) {
+                        ResponseResult result = response.body();
+                        if (result != null && result.getResult() == true) {
+                            // deletion success
+                            // inform other clients to delete the question
+                            JSONObject jsonObject = new JSONObject();
+                            try {
+                                jsonObject.put("roomName", "theRoomNameOfTheDeletedQuestion");
+                                jsonObject.put("id", mQuestionKey);
+                            } catch (JSONException e) {
+                            }
+                            RESTfulAPI.getInstance().getSocket().emit("del post", jsonObject);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });
+                finish();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }
