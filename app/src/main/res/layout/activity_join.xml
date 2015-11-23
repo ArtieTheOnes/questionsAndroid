@@ -70,6 +70,7 @@
             android:textAllCaps="false"
             />
 
+
         <TextView
             android:id="@+id/signup_button"
             android:text="Sign Up"
