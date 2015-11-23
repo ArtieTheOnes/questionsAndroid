@@ -56,6 +56,9 @@ public class MainActivity extends ListActivity {
     private DBUtil dbutil;
     private Socket mSocket;
     private String image = null;
+    private long StartTime;
+    private long EndTime;
+    private String Content;
     public DBUtil getDbutil() {
         return dbutil;
     }
@@ -263,8 +266,8 @@ public class MainActivity extends ListActivity {
     @Override
     public void onResume(){
         super.onResume();
-        Reset_Search();
-        Reset_Search();
+        refresh_list();
+        refresh_list();
         Toast.makeText(MainActivity.this, "Refreshed", Toast.LENGTH_SHORT).show();
 
     }
@@ -318,33 +321,41 @@ public class MainActivity extends ListActivity {
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                long startTime = TimeDisplay.toTimestamp(data.getExtras().getString("StartTime"));
-                long endTime = TimeDisplay.toTimestamp(data.getExtras().getString("EndTime"));
-                String content = data.getExtras().getString("Content");
-                final Map<String, String> query = new ArrayMap<>();
-                query.put("roomName", mRoomName);
-                query.put("startTime", String.valueOf(startTime));
-                query.put("endTime", String.valueOf(endTime));
-                query.put("content", content);
-                mAPI.getQuestionList(query).enqueue(new Callback<List<Question>>() {
-                    @Override
-                    public void onResponse(Response<List<Question>> response, Retrofit retrofit) {
-                        List<Question> questions = response.body();
-                        if (questions != null) {
-                            mQuestionAdapter.setQuestionList(questions);
-                        } else {
-                            Log.e("Empty Response Body", "Null Question List");
-                        }
-                    }
+                StartTime = TimeDisplay.toTimestamp(data.getExtras().getString("StartTime"));
+                EndTime = TimeDisplay.toTimestamp(data.getExtras().getString("EndTime"));
+                Content = data.getExtras().getString("Content");
 
-                    @Override
-                    public void onFailure(Throwable t) {
-
-                    }
-                });
             }
         }
     }
+
+    public void refresh_list(){
+        long startTime =StartTime;
+        long endTime = EndTime;
+        String content = Content;
+        final Map<String, String> query = new ArrayMap<>();
+        query.put("roomName", mRoomName);
+        query.put("startTime", String.valueOf(startTime));
+        query.put("endTime", String.valueOf(endTime));
+        query.put("content", content);
+        mAPI.getQuestionList(query).enqueue(new Callback<List<Question>>() {
+            @Override
+            public void onResponse(Response<List<Question>> response, Retrofit retrofit) {
+                List<Question> questions = response.body();
+                if (questions != null) {
+                    mQuestionAdapter.setQuestionList(questions);
+                } else {
+                    Log.e("Empty Response Body", "Null Question List");
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+    }
+
 
     @Override
     public void startActivity(Intent intent) {
