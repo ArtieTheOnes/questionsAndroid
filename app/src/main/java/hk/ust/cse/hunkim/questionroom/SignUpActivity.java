@@ -1,5 +1,7 @@
 package hk.ust.cse.hunkim.questionroom;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,13 +44,9 @@ public void TryToSignUp() {
             ResponseResult result = response.body();
             if (username.equals("") || password.equals("")) {
                 Toast.makeText(SignUpActivity.this, "Empty username/password", Toast.LENGTH_SHORT).show();
-            }
-            else if (result != null && result.getResult() == true) {
-                Intent intent = new Intent();
-                intent.putExtra("username", mUsername);
-                SignUpActivity.this.setResult(RESULT_OK, intent);
-                SignUpActivity.this.finish();
-            } else if (result != null){
+            } else if (result != null && result.getResult() == true) {
+               signupDialog(username);
+            } else if (result != null) {
                 ((EditText) findViewById(R.id.password2)).setText("");
                 Toast.makeText(SignUpActivity.this, "The username has existed.", Toast.LENGTH_SHORT).show();
             }
@@ -61,4 +59,21 @@ public void TryToSignUp() {
         }
     });
 }
+
+    protected void signupDialog(final String Username)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(SignUpActivity.this);
+        builder.setMessage("Successful registered as " + Username).setTitle("Success");
+        builder.setNeutralButton("Proceed", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                JoinActivity.setmUsername(Username);
+                Intent intent = new Intent();
+                //intent.putExtra("username",username);
+                SignUpActivity.this.setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+        builder.create().show();
+    }
 }

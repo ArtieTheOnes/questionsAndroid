@@ -17,6 +17,7 @@ import android.widget.Toast;
 /**
  * A login screen that offers login via email/password.
  */
+
 public class JoinActivity extends Activity {
     public static final String ROOM_NAME = "Room_name";
     private static boolean incognitoMode = false;
@@ -152,5 +153,7 @@ public class JoinActivity extends Activity {
     public static boolean isIncognitoMode(){return incognitoMode;}
 
     public static String getmUsername() {return mUsername;}
+
+    public static void setmUsername(String username) {mUsername = username;}
 }
 

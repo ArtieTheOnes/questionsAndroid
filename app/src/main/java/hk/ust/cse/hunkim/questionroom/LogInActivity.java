@@ -1,5 +1,7 @@
 package hk.ust.cse.hunkim.questionroom;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,13 +42,11 @@ public void TryToLogIn() {
         public void onResponse(Response<ResponseResult> response, Retrofit retrofit) {
             if (username.equals("") || password.equals("")) {
                 Toast.makeText(LogInActivity.this, "Empty username/password", Toast.LENGTH_SHORT).show();
-            }
-            else if (response.body() != null && response.body().getResult() == true) {
-                Intent intent = new Intent();
-                //intent.putExtra("username",username);
-                LogInActivity.this.setResult(RESULT_OK, intent);
-                LogInActivity.this.finish();
-            } else if (response.body()!=null){
+            } else if (response.body() != null && response.body().getResult() == true) {
+
+            loginDialog(username);
+
+            } else if (response.body() != null) {
                 ((EditText) findViewById(R.id.password)).setText("");
                 Toast.makeText(LogInActivity.this, "Invalid username/password", Toast.LENGTH_SHORT).show();
             }
@@ -59,4 +59,22 @@ public void TryToLogIn() {
         }
     });
 }
+
+    protected void loginDialog(final String Username)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LogInActivity.this);
+        builder.setMessage("Successful login as " + Username).setTitle("Success");
+        builder.setNeutralButton("Proceed", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                JoinActivity.setmUsername(Username);
+                Intent intent = new Intent();
+                //intent.putExtra("username",username);
+                LogInActivity.this.setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
+        builder.create().show();
+    }
+
 }

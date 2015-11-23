@@ -187,7 +187,7 @@ public class ReplyActivity extends Activity {
 
     protected void deleteDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(ReplyActivity.this);
-        builder.setMessage("Delete Question").setTitle("Are you sure to delete this question?");
+        builder.setMessage("Are you sure to delete this question?").setTitle("Delete Question");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

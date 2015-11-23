@@ -265,6 +265,8 @@ public class MainActivity extends ListActivity {
         super.onResume();
         Reset_Search();
         Reset_Search();
+        Toast.makeText(MainActivity.this, "Refreshed", Toast.LENGTH_SHORT).show();
+
     }
 
     public void emitLikeQuestion(String questionKey) {
