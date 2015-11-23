@@ -27,7 +27,7 @@
             android:id="@+id/newQuestionSwitch"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textColor="#00802b"
+            android:textColor="#009688"
             android:padding="10dp"/>
     </RelativeLayout>
     <RelativeLayout

@@ -8,18 +8,19 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#288a83"
-        android:id="@+id/mainActivityTop">
+        android:background="#009688"
+        android:id="@+id/mainActivityTop"
+        android:padding="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/mainActivityRoomName"
             android:text="RoomName"
-            android:textSize="23dp"
+            android:textSize="20dp"
             android:textColor="#f2f2f2"
             android:layout_centerVertical="true"
-            android:padding="10dp"/>
+            android:layout_marginLeft="5dp"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -71,6 +72,7 @@
         android:layout_alignParentBottom="true"
         app:borderWidth="0dp"
         android:src="@drawable/add"
+
         android:layout_alignParentRight="true"/>
 
 

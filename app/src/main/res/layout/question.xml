@@ -34,21 +34,26 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp">
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:id="@+id/questionUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="3dp"
+                    android:textColor="#009688"/>
+
                 <TextView
                     android:layout_centerVertical="true"
                     android:id="@+id/questionTimestamp"
                     android:text="@{TimeDisplay.fromTimestamp(question.timestamp)}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"/>
-                <TextView
-                    android:layout_centerVertical="true"
-                    android:id="@+id/questionUsername"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:paddingBottom="3dp"/>
+                    android:layout_marginLeft="5dp"/>
+
             </LinearLayout>
 
             <ImageButton
@@ -58,15 +63,14 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/questionEchonum"
-                android:layout_marginLeft="5dp"/>
+                android:layout_toLeftOf="@+id/questionEchonum"/>
             <TextView
                 android:id="@+id/questionEchonum"
                 android:text="@{String.valueOf(question.echo)}"
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_toLeftOf="@+id/questionDislikeButton"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="15dp"
                 android:layout_height="wrap_content" />
 
             <ImageButton
@@ -83,7 +87,7 @@
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
                 android:layout_toLeftOf="@+id/questionReplyButton"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="15dp"
                 android:layout_height="wrap_content" />
 
             <ImageButton

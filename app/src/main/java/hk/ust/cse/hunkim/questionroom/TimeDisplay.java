@@ -13,18 +13,18 @@ public class TimeDisplay {
         difference = difference/1000;
         if (difference < 60*60*24){
             if (difference < 60){
-                if (difference < 2) outputTime = "just now";
-                else outputTime = difference + " seconds ago";
+                if (difference < 2) outputTime = "now";
+                else outputTime = difference + "s";
             }
             else if (difference < 60*60){
-                outputTime = ((int)(difference/60)) + " minute" + (difference/60 > 1 ? "s": "") + " ago";
+                outputTime = ((int)(difference/60)) + " min" + (difference/60 > 1 ? "s": "");
             }
             else{
-                outputTime = ((int)(difference/60/60)) + " hour" + (difference/60/60 > 1 ? "s": "") + " ago";
+                outputTime = ((int)(difference/60/60)) + " hr" + (difference/60/60 > 1 ? "s": "") + "";
             }
         }
         else{
-            outputTime = ((int)(difference/60/60/24)) + " day" + (difference/60/60/24 > 1 ? "s": "") + " ago";
+            outputTime = ((int)(difference/60/60/24)) + " day" + (difference/60/60/24 > 1 ? "s": "") + "";
         }
         return outputTime;
     }

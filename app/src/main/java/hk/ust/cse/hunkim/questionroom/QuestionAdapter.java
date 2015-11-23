@@ -115,11 +115,11 @@ public class QuestionAdapter extends ArrayAdapter<Question> {
         TextView description = holder.description;
         if (question.isIncognito())
         {
-            description.setText("by Anonymous");
+            description.setText("Anonymous");
         }
         else
         {
-            description.setText("by " + question.getUsername());
+            description.setText(question.getUsername());
 
         }
 

@@ -141,6 +141,8 @@ public class JoinActivity extends Activity {
                 username=data.getExtras().getString("username");
                 ((Button) findViewById(R.id.login_button)).setText(username);
             }*/
+                ((TextView) findViewById(R.id.login_button)).setText(username);
+            }
         }
         if (requestCode==4){
             /*if (resultCode==RESULT_OK){

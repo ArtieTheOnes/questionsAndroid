@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,48 +10,87 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="hk.ust.cse.hunkim.questionroom.JoinActivity">
 
-    <AutoCompleteTextView
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="uAsk"
+        android:layout_above="@+id/joinView"
+        android:textSize="50dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="#009688"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="sans-serif-light"   />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/joinOperation"
+        android:id="@+id/joinView">
+
+        <AutoCompleteTextView
         android:id="@+id/room_name"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:hint="@string/prompt_room_name"
         android:inputType="textShortMessage"
+        android:layout_centerInParent="true"
         android:maxLines="1"
-        android:singleLine="true" />
+        android:singleLine="true"  />
 
-    <Button
-        android:id="@+id/join_button"
-        style="?android:textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:onClick="attemptJoin"
-        android:text="@string/action_join"
-        android:textStyle="bold" />
+        <ImageButton
+            android:id="@+id/join_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="attemptJoin"
+            android:layout_toRightOf="@+id/room_name"
+            android:src="@drawable/enter"
+            android:layout_centerVertical="true"
+            android:background="@null"/>
 
-    <Button
-        android:id="@+id/login_button"
-        style="?android:textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="LOG IN"
-        android:textAllCaps="false"
-         />
+    </RelativeLayout>
 
-    <Button
-        android:id="@+id/signup_button"
-        android:text="SIGN UP"
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        />
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:paddingTop="10dp"
+        android:id="@+id/joinOperation">
+
+        <TextView
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log In"
+            android:layout_margin="10dp"
+            android:clickable="true"
+            android:textAllCaps="false"
+            />
+
+        <TextView
+            android:id="@+id/signup_button"
+            android:text="Sign Up"
+            android:clickable="true"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="false"
+            />
+
+    </RelativeLayout>
+
 
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Incognito Mode"
-        android:id="@+id/incognitoSwitch"
-        android:layout_gravity="right" />
-</LinearLayout>
+        android:textColor="#737373"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/incognitoSwitch" />
+</RelativeLayout>
 

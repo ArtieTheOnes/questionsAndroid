@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|bottom"
-                android:background="#d8f3f1"
+                android:background="#e6e6e6"
                 android:paddingBottom="3dp"
                 android:id="@+id/questionFrame">
 
@@ -52,15 +52,13 @@
                         android:textStyle="bold"/>
 
                     <ImageButton
-                        android:id="@+id/deleteQuestion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="15dp"
                         android:src="@drawable/delete"
-
 
                         android:background="@null"/>
 
@@ -77,6 +75,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
+                        android:textColor="#009688"
                         android:layout_marginLeft="10dp"/>
 
                     <TextView
@@ -93,7 +92,8 @@
 
                 <ImageView
                     android:id="@+id/ImageView"
-                    android:layout_width="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     />
             </LinearLayout>
